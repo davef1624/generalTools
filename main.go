@@ -24,7 +24,7 @@ func main() {
 		log.Fatalf("Error creating Kubernetes client: %v", err)
 	}
 
-	// Query pod state
+	// Query K8s pod state
 	namespace := "default" // Change this to the namespace you want to query
 	pods, err := getPods(clientset, namespace)
 	if err != nil {
