@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -17,6 +18,7 @@ func main() {
 		log.Fatalf("Error creating in-cluster config: %v", err)
 	}
 
+	// Create a K8s client
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		log.Fatalf("Error creating Kubernetes client: %v", err)
