@@ -1,38 +1,52 @@
 package main
 
 import (
-    "fmt"
-    "log"
-    "os"
-    "path/filepath"
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
 )
 
-func main() {
-    // Specify the directory to count files in
-    dir := "/path/to/your/directory" 
-
-    // Count the files
-    fileCount, err := countFiles(dir)
-    if err != nil {
-        log.Fatalf("Error counting files: %v", err)
-    }
-
-    // Print the file count
-    fmt.Printf("Number of files in directory '%s': %d\n", dir, fileCount)
+// FileCounter struct to represent the "class"
+type FileCounter struct {
+	Directory string
 }
 
-func countFiles(dir string) (int, error) {
-    var fileCount int
+// NewFileCounter is a constructor function for FileCounter
+func NewFileCounter(directory string) *FileCounter {
+	return &FileCounter{Directory: directory}
+}
 
-    err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
-        if err != nil {
-            return err
-        }
-        if !info.IsDir() {
-            fileCount++
-        }
-        return nil
-    })
+// CountFiles method to count the files in the directory
+func (fc *FileCounter) CountFiles() (int, error) {
+	var fileCount int
 
-    return fileCount, err
+	err := filepath.Walk(fc.Directory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			fileCount++
+		}
+		return nil
+	})
+
+	return fileCount, err
+}
+
+func main() {
+	// Specify the directory to count files in
+	dir := "."
+
+	// Create a new FileCounter instance
+	fileCounter := NewFileCounter(dir)
+
+	// Count the files
+	fileCount, err := fileCounter.CountFiles()
+	if err != nil {
+		log.Fatalf("Error counting files: %v", err)
+	}
+
+	// Print the file count
+	fmt.Printf("Number of files in directory '%s': %d\n", dir, fileCount)
 }
