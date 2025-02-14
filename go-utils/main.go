@@ -36,7 +36,10 @@ func (fc *FileCounter) CountFiles() (int, error) {
 
 func main() {
 	// Specify the directory to count files in
-	dir := "."
+	if len(os.Args) < 2 {
+		log.Fatalf("Usage: %s <directory", os.Args[0])
+	}
+	dir := os.Args[1]
 
 	// Create a new FileCounter instance
 	fileCounter := NewFileCounter(dir)
