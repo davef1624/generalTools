@@ -18,8 +18,9 @@ func NewFileCounter(directory string) *FileCounter {
 }
 
 // CountFiles method to count the files in the directory
-func (fc *FileCounter) CountFiles() (int, error) {
+func (fc *FileCounter) CountFiles() (int, map[string]int64, error) {
 	var fileCount int
+	fileSize := make(map[string]int64)
 
 	err := filepath.Walk(fc.Directory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -27,11 +28,12 @@ func (fc *FileCounter) CountFiles() (int, error) {
 		}
 		if !info.IsDir() {
 			fileCount++
+			fileSize[path] = info.Size()
 		}
 		return nil
 	})
 
-	return fileCount, err
+	return fileCount, fileSize, err
 }
 
 func main() {
@@ -45,11 +47,16 @@ func main() {
 	fileCounter := NewFileCounter(dir)
 
 	// Count the files
-	fileCount, err := fileCounter.CountFiles()
+	fileCount, fileSizes, err := fileCounter.CountFiles()
 	if err != nil {
 		log.Fatalf("Error counting files: %v", err)
 	}
 
 	// Print the file count
 	fmt.Printf("Number of files in directory '%s': %d\n", dir, fileCount)
+
+	// Print file sizes
+	for fileName, size := range fileSizes {
+		fmt.Printf("File: %s, Size: %d bytes\n", fileName, size)
+	}
 }
