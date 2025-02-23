@@ -1,6 +1,7 @@
 import os
 import sys
 
+# Count files in directory and return a dictionary with file sizes
 def count_files(directory):
     file_count = 0
     file_sizes = {}
