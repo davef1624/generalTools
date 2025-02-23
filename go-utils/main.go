@@ -17,7 +17,7 @@ func NewFileCounter(directory string) *FileCounter {
 	return &FileCounter{Directory: directory}
 }
 
-// CountFiles method to count the files in the directory
+// CountFiles method to count the files in the specified directory
 func (fc *FileCounter) CountFiles() (int, map[string]int64, error) {
 	var fileCount int
 	fileSize := make(map[string]int64)
