@@ -1,4 +1,5 @@
 import hvac 
+import argparse
 
 def hcVaultClient():
     # Initialize the Vault client
